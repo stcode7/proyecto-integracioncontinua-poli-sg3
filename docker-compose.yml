@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./frontend_container
+    ports:
+      - "8080:80" # localhost:8080 → nginx (frontend)
+    volumes:
+      - ./frontend_container:/usr/share/nginx/html
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend_container
+    ports:
+      - "4567:4567" # localhost:4567 → ruby/sinatra (backend)
