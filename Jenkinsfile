@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define el nombre de tu usuario de Docker Hub u otro registro
-        DOCKER_REGISTRY_USER = 'your-docker-username'
+        DOCKER_REGISTRY_USER = 'darell052'
         // El nombre para la imagen del backend
         BACKEND_IMAGE_NAME = "${DOCKER_REGISTRY_USER}/proyecto-backend"
         // El nombre para la imagen del frontend
@@ -21,8 +21,6 @@ pipeline {
 
         stage('2. Pruebas (Backend)') {
             steps {
-                // Este es un paso CRÍTICO. Debes implementar pruebas reales.
-                // Por ahora, solo mostraremos un mensaje.
                 echo "ADVERTENCIA: No se están ejecutando pruebas reales para el backend."
                 echo "Debes agregar un framework de pruebas como RSpec y ejecutar 'bundle exec rspec'."
             }
