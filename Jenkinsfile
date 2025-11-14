@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     environment {
-        // Define el nombre de tu usuario de Docker Hub u otro registro
-        DOCKER_REGISTRY_USER = 'darell052'
-        // El nombre para la imagen del backend
-        BACKEND_IMAGE_NAME = "${DOCKER_REGISTRY_USER}/proyecto-backend"
-        // El nombre para la imagen del frontend
-        FRONTEND_IMAGE_NAME = "${DOCKER_REGISTRY_USER}/proyecto-frontend"
+        // Carga la credencial 'docker-hub-credentials'
+        DOCKER_CREDS = credentials('docker-hub-credentials')
+        // Jenkins automáticamente crea la variable DOCKER_CREDS_USR con el username
+        BACKEND_IMAGE_NAME = "${DOCKER_CREDS_USR}/proyecto-backend"
+        FRONTEND_IMAGE_NAME = "${DOCKER_CREDS_USR}/proyecto-frontend"
     }
 
     stages {
