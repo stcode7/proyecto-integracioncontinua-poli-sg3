@@ -1,0 +1,12 @@
+# Jenkins Plugins to be installed
+# Syntax: plugin-id:version
+
+# Pipeline and Git
+workflow-aggregator:latest
+git:latest
+
+# Docker Integration
+docker-workflow:latest
+
+# SSH for Deployment
+ssh-agent:latest

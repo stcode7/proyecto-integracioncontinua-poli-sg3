@@ -1,9 +1,24 @@
 version: "3.8"
+
+volumes:
+  jenkins_home: {}
+
 services:
+  jenkins:
+    build: ./jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    user: root
+    restart: on-failure
+
   frontend:
     build: ./frontend_container
     ports:
-      - "8080:80" # localhost:8080 → nginx (frontend)
+      - "8081:80" # Cambiado a 8081 para no chocar con Jenkins
     volumes:
       - ./frontend_container:/usr/share/nginx/html
     depends_on:
