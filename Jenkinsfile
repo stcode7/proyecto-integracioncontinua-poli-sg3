@@ -69,39 +69,7 @@ pipeline {
             }
         }
 
-        stage('6. Deploy en Servidor') {
-            steps {
-                script {
-                    echo "Desplegando la aplicación..."
-                    // Jenkins necesita credenciales SSH para tu servidor de producción/staging
-                    // Se debe configurar un 'Credential' de tipo 'SSH Username with private key' con el ID 'deploy-server-ssh'
-                    // Reemplaza 'user@your-server-ip' con los datos de tu servidor
-                    sshagent(credentials: ['deploy-server-ssh']) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no user@your-server-ip '
-                                echo "Conectado al servidor de deploy."
 
-                                # Exportar variables para que docker-compose las use
-                                export BACKEND_IMAGE="${BACKEND_IMAGE_NAME}:${env.BUILD_ID}"
-                                export FRONTEND_IMAGE="${FRONTEND_IMAGE_NAME}:${env.BUILD_ID}"
-
-                                # Navegar al directorio del proyecto en el servidor
-                                # DEBES asegurarte de que un docker-compose.yml de producción exista en esta ruta
-                                cd /ruta/a/tu/app
-
-                                # Descargar las nuevas imágenes
-                                docker-compose pull
-
-                                # Levantar los servicios con las nuevas imágenes
-                                docker-compose up -d
-
-                                echo "Deploy finalizado."
-                            '
-                        '''
-                    }
-                }
-            }
-        }
     }
 
     post {
