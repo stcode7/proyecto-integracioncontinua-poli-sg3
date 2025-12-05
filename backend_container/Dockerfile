@@ -5,7 +5,7 @@ FROM ruby:3.3
 WORKDIR /usr/src/app
 
 # Copiamos Gemfile primero para aprovechar cache de Docker
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile ./
 
 # Instalamos las gemas necesarias
 RUN bundle install

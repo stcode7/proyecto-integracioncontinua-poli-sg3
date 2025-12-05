@@ -18,10 +18,29 @@ pipeline {
             }
         }
 
-        stage('2. Pruebas (Backend)') {
+        stage('2. Pruebas y Calidad') {
             steps {
-                echo "ADVERTENCIA: No se están ejecutando pruebas reales para el backend."
-                echo "Debes agregar un framework de pruebas como RSpec y ejecutar 'bundle exec rspec'."
+                script {
+                    echo "Ejecutando pruebas y análisis de calidad..."
+                    def testImage = docker.build("backend-test:${env.BUILD_ID}", "-f backend_container/Dockerfile backend_container")
+                    
+                    testImage.inside {
+                        // 1. Pruebas Unitarias
+                        echo "--- Ejecutando RSpec ---"
+                        sh 'bundle exec rspec'
+                        
+                        // 2. Análisis de Estilo (Linter)
+                        // Usamos || true para que no rompa el build si solo son advertencias de estilo,
+                        // pero en un entorno estricto lo quitaríamos.
+                        echo "--- Ejecutando Rubocop ---"
+                        sh 'bundle exec rubocop --format simple || true'
+
+                        // 3. Análisis de Seguridad
+                        echo "--- Ejecutando Brakeman ---"
+                        // Brakeman escanea buscando vulnerabilidades comunes
+                        sh 'bundle exec brakeman -q --no-exit-on-warn --no-exit-on-error || true'
+                    }
+                }
             }
         }
 
